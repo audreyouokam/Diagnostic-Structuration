@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indice de Structure : le diagnostic en 5 minutes</title>
+<meta name="description" content="Ton activité est-elle structurée, ou tient-elle sur ta seule énergie ? Réponds à 19 questions et repars avec ton score et tes deux premiers chantiers.">
+<style>
+:root{
+  --marine:#1B2A4A; --or:#B08D3E; --creme:#F7F5F0; --vert:#1F4632; --graphite:#1A1A1A;
+  --gris:#5B5B5B; --ligne:#E4E0D6; --blanc:#FFFFFF;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--creme);color:var(--graphite);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;color:var(--marine);line-height:1.2;margin:0 0 .5em}
+.wrap{max-width:640px;margin:0 auto;padding:0 18px 48px}
+.top{background:var(--marine);color:var(--blanc);padding:26px 18px 30px;text-align:center}
+.top .sig{font-family:Georgia,serif;font-size:1.05rem;letter-spacing:.02em}
+.top .sig b{font-weight:700}
+.top .sub{display:block;margin-top:2px;font-size:.85rem;color:#E9D9A8}
+.top .filet{width:56px;height:3px;background:var(--or);margin:14px auto 0;border-radius:2px}
+.card{background:var(--blanc);border:1px solid var(--ligne);border-radius:18px;padding:22px 20px;margin-top:18px;box-shadow:0 2px 10px rgba(27,42,74,.05)}
+.hero h1{font-size:1.65rem;margin-top:6px}
+.lead{color:var(--gris);font-size:1.02rem}
+ul.benef{list-style:none;padding:0;margin:16px 0}
+ul.benef li{padding:8px 0 8px 32px;position:relative}
+ul.benef li:before{content:"";position:absolute;left:0;top:12px;width:20px;height:20px;border-radius:50%;background:var(--or);opacity:.9}
+ul.benef li:after{content:"";position:absolute;left:7px;top:16px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+label{display:block;font-weight:600;margin:14px 0 6px;color:var(--marine)}
+input[type=text]{width:100%;padding:13px 14px;border:1px solid #CFC9BA;border-radius:12px;font-size:1rem;background:#fff;font-family:inherit}
+input[type=text]:focus{outline:3px solid rgba(176,141,62,.35);border-color:var(--or)}
+.btn{display:inline-block;width:100%;text-align:center;padding:15px 18px;border-radius:14px;border:0;background:var(--marine);color:#fff;font-size:1.02rem;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit}
+.btn:hover{background:#25396a}
+.btn.or{background:var(--or)}
+.btn.or:hover{background:#9a7a33}
+.btn.vide{background:#fff;color:var(--marine);border:1.5px solid var(--marine)}
+.btn.vide:hover{background:#f1f3f8}
+.btn+.btn{margin-top:10px}
+.petit{font-size:.86rem;color:var(--gris)}
+.confiance{background:#EEF1F6;border-radius:14px;padding:12px 14px;margin:14px 0;font-size:.95rem}
+.donnees{margin:10px 0 4px;font-size:.92rem}
+.donnees summary{cursor:pointer;color:var(--marine);font-weight:600}
+.donnees ul{margin:8px 0 0;padding-left:18px;color:var(--gris)}
+.progress{height:8px;background:#EBE7DB;border-radius:6px;overflow:hidden;margin:6px 0 4px}
+.progress i{display:block;height:100%;background:var(--or);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:#8a6f2c;font-weight:700}
+.cat{margin-top:18px;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--vert);font-weight:700}
+.q{font-size:1.28rem;margin:6px 0 16px}
+.opt{display:block;width:100%;text-align:left;padding:14px 16px;margin:0 0 10px;border:1.5px solid var(--ligne);border-radius:14px;background:#fff;font-size:1rem;cursor:pointer;font-family:inherit;color:var(--graphite)}
+.opt:hover{border-color:var(--or)}
+.opt.sel{border-color:var(--vert);background:#EEF5EF;font-weight:600}
+.nav{display:flex;gap:10px;align-items:center;margin-top:8px}
+.nav .btn{width:auto;padding:11px 16px;font-size:.92rem}
+.hidden{display:none}
+.ring{display:block;margin:6px auto 0}
+.score{text-align:center}
+.niveau{display:inline-block;margin-top:6px;padding:6px 14px;border-radius:30px;background:var(--marine);color:#fff;font-weight:700;letter-spacing:.03em}
+.bar{margin:12px 0}
+.bar .l{display:flex;justify-content:space-between;font-weight:600;color:var(--marine)}
+.bar .t{height:10px;background:#EBE7DB;border-radius:8px;overflow:hidden;margin-top:4px}
+.bar .t i{display:block;height:100%;background:var(--vert)}
+.bar.faible .t i{background:var(--or)}
+.chantier{border-left:4px solid var(--or);padding:4px 0 4px 14px;margin:14px 0}
+.chantier h3{font-size:1.08rem;margin-bottom:.25em}
+.chantier ul{margin:.3em 0 0;padding-left:18px}
+.geste{background:#FBF3DE;border:1px solid #EBD9A3;border-radius:14px;padding:14px 16px;margin-top:16px}
+.absence{background:#EEF1F6;border:1px solid #CBD3E3;border-radius:14px;padding:14px 16px;margin-top:16px}
+footer{margin-top:26px;text-align:center}
+@media print{
+  body{background:#fff}
+  .top{background:#fff;color:#000;padding-top:0}
+  .top .sig,.top .sub{color:#000}
+  .noprint,#ecran-accueil,#ecran-quiz{display:none!important}
+  .card{box-shadow:none;border:0;padding:0}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="sig"><b id="nom">Audrey Ouokam</b><span class="sub" id="titre">Business Designer</span></div>
+  <div class="filet"></div>
+</header>
+
+<main class="wrap">
+
+  <!-- ACCUEIL -->
+  <section id="ecran-accueil" class="card hero">
+    <div class="cat" style="margin-top:0">Diagnostic gratuit, 5 minutes</div>
+    <h1>Ton activité est-elle structurée, ou tient-elle sur ta seule énergie ?</h1>
+    <p class="lead">Réponds à 19 questions courtes. Tu obtiens ton Indice de Structure sur 100, tes points forts et tes deux premiers chantiers.</p>
+    <ul class="benef">
+      <li>Ton score global et ton niveau d'organisation</li>
+      <li>Tes résultats sur cinq piliers : Structure, Performance, Rigueur, Croissance, Amélioration continue</li>
+      <li>Les deux premières actions à lancer dès cette semaine</li>
+    </ul>
+    <div class="confiance">
+      <b>Qui est derrière ce diagnostic ?</b><br>
+      <span id="qui"></span>
+    </div>
+    <details class="donnees">
+      <summary>Que deviennent mes réponses ?</summary>
+      <ul>
+        <li>Le calcul se fait sur ton téléphone. Par défaut, rien n'est envoyé.</li>
+        <li>Si tu choisis de recevoir ton rapport, ton prénom, ton contact et ton score sont transmis à Audrey Ouokam avec ton accord, uniquement pour te recontacter.</li>
+        <li>Tes données ne sont ni vendues ni partagées. Tu peux demander leur suppression à tout moment.</li>
+      </ul>
+    </details>
+    <label for="prenom">Ton prénom (facultatif)</label>
+    <input type="text" id="prenom" autocomplete="given-name" placeholder="Ex. : Nadège">
+    <div style="margin-top:16px"><button class="btn" id="btn-start">Commencer le diagnostic</button></div>
+    <div id="accueil-wa" style="margin-top:10px"></div>
+    <p class="petit" style="margin-top:12px">Tes réponses restent sur ton téléphone. Rien n'est envoyé sans ton accord. Tu peux les effacer à tout moment.</p>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="ecran-quiz" class="card hidden" aria-live="polite">
+    <div class="meta"><span id="compteur">Question 1 sur 19</span><span id="pct">0 %</span></div>
+    <div class="progress"><i id="barre"></i></div>
+    <div class="cat" id="categorie"></div>
+    <h2 class="q" id="question"></h2>
+    <div id="options"></div>
+    <div class="nav">
+      <button class="btn vide" id="btn-prec">Précédent</button>
+      <span class="petit" id="aide"></span>
+    </div>
+  </section>
+
+  <!-- RESULTAT -->
+  <section id="ecran-resultat" class="hidden">
+    <div class="card">
+      <div class="score">
+        <div class="cat" style="margin-top:0" id="res-bonjour"></div>
+        <svg class="ring" width="170" height="170" viewBox="0 0 170 170" role="img" aria-label="Score">
+          <circle cx="85" cy="85" r="72" fill="none" stroke="#EBE7DB" stroke-width="14"/>
+          <circle id="anneau" cx="85" cy="85" r="72" fill="none" stroke="#B08D3E" stroke-width="14" stroke-linecap="round" stroke-dasharray="452.39" stroke-dashoffset="452.39" transform="rotate(-90 85 85)"/>
+          <text x="85" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="44" font-weight="700" fill="#1B2A4A" id="score-txt">0</text>
+          <text x="85" y="112" text-anchor="middle" font-size="14" fill="#5B5B5B">sur 100</text>
+        </svg>
+        <div class="niveau" id="niveau"></div>
+        <p class="lead" id="niveau-texte" style="margin-top:12px"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Tes cinq piliers</h2>
+      <div id="piliers"></div>
+      <p class="petit">En or : les piliers à renforcer en priorité. En vert : tes points d'appui.</p>
+    </div>
+
+    <div class="card">
+      <h2>Pour ton secteur et ta structure</h2>
+      <p id="txt-secteur"></p>
+      <p id="txt-structure"></p>
+    </div>
+
+    <div class="card">
+      <h2>Tes deux premiers chantiers</h2>
+      <div id="chantiers"></div>
+      <div class="geste"><b>Ton premier geste cette semaine :</b> <span id="geste"></span></div>
+      <div class="absence hidden" id="absence"></div>
+    </div>
+
+    <div class="card noprint">
+      <h2>Et maintenant ?</h2>
+      <p>Ce diagnostic est un point de départ. Pour aller plus vite, tu peux échanger avec moi quinze minutes.</p>
+      <div id="ctas"></div>
+      <button class="btn vide" id="btn-copier">Copier mon résultat</button>
+      <button class="btn vide" id="btn-print">Enregistrer en PDF ou imprimer</button>
+      <button class="btn vide" id="btn-refaire">Refaire le diagnostic</button>
+      <p class="petit" id="copie-info" style="margin-top:10px"></p>
+    </div>
+    <p class="petit" style="margin-top:16px">Cet outil est un repère de départ construit à partir de tes réponses. Il ne remplace ni un audit ni un avis juridique, comptable ou fiscal.</p>
+  </section>
+
+  <footer class="petit noprint">
+    <button class="btn vide" id="btn-effacer" style="width:auto;padding:8px 14px;font-size:.85rem">Effacer mes réponses sur cet appareil</button>
+  </footer>
+</main>
+
+<script>
+/* ================== CONFIGURATION (à modifier) ================== */
+var CONFIG = {
+  nom: "Audrey Ouokam",
+  qui: "Je m'appelle Audrey Ouokam, Business Designer, basée à Douala. J'ai travaillé dans l'industrie agroalimentaire et sur un chantier de BTP, et j'aide les petites entreprises à passer du feeling à la méthode.",
+  titre: "Business Designer",
+  calendlyUrl: "",        // Exemple : https://calendly.com/ton-compte/echange-15-min
+  tallyUrl: "",           // Exemple : https://tally.so/r/xxxxxx  (formulaire "Recevoir mon rapport")
+  whatsapp: "",           // Numéro au format international sans + ni espaces, ex. 2376XXXXXXXX
+  message_whatsapp: "Bonjour Audrey, j'ai fait le diagnostic Indice de Structure."
+};
+
+/* ================== CONTENU DU DIAGNOSTIC ================== */
+var CONTEXTE = [
+  {id:"secteur", q:"Dans quel secteur travailles-tu ?", opts:["Commerce et distribution","Agroalimentaire et transformation","BTP et construction","Services et conseil","Restauration et hôtellerie","Beauté, mode et artisanat","Éducation et formation","Santé et bien-être","Transport et logistique","Numérique et communication","Autre secteur"]},
+  {id:"structure", q:"Quel est ton type de structure ?", opts:["Entrepreneur ou entrepreneure individuelle","TPE ou PME","Startup ou jeune entreprise innovante","Association ou ONG"]},
+  {id:"equipe", q:"Combien de personnes travaillent avec toi ?", opts:["Je travaille seule","1 à 2 personnes","3 à 5 personnes","6 personnes ou plus"]},
+  {id:"absence", q:"Prévois-tu de t'absenter dans les trois prochains mois (congé, vacances, formation) ?", opts:["Oui","Peut-être","Non"]}
+];
+var SECTEURS_TXT = [
+  "Dans le commerce, les pertes viennent souvent de stocks mal suivis et d'une caisse mélangée avec l'argent personnel. Un inventaire simple chaque semaine et un cahier de caisse séparé changent vite la lecture de tes chiffres.",
+  "Dans la transformation, la régularité fait la réputation : mêmes recettes, mêmes quantités, lots identifiés. Une fiche de production et un suivi des lots donnent de la constance et rassurent les acheteurs.",
+  "Sur un chantier, rien ne tient sans consignes claires et sans suivi : qui intervient où, avec quelles autorisations, quelles livraisons sont attendues. Un planning partagé et un suivi des commandes évitent beaucoup d'arrêts.",
+  "Dans les services, le risque est de tout vivre en messages : demandes, devis, délais. Un modèle de devis, une trame de mission et un suivi des échéances rendent ton travail visible et facturable.",
+  "En restauration et hôtellerie, tout se joue sur la régularité et l'hygiène : fiches de recettes, check-lists d'ouverture et de fermeture, suivi des achats. Elles permettent de former vite et de tenir le niveau.",
+  "Dans l'artisanat, la mode et la beauté, les commandes s'accumulent par messages. Un carnet de commandes avec dates de livraison, acomptes et statuts évite les retards et les oublis.",
+  "En formation, la qualité se voit dans la préparation : programme, supports, présence, évaluation. Une trame réutilisable par session te fait gagner du temps et améliore la satisfaction.",
+  "Dans la santé et le bien-être, la confiance repose sur la rigueur : rendez-vous, consignes, suivi des personnes accueillies. Un agenda unique et des fiches de suivi protègent tes clients et toi.",
+  "En logistique, les retards coûtent cher : suivi des livraisons, entretien des véhicules, répartition des tâches. Un tableau de suivi du jour et un planning d'entretien évitent les pannes et les litiges.",
+  "Dans le numérique et la communication, les projets glissent faute de cadre : périmètre, étapes, validations. Une trame de projet et un point hebdomadaire avec le client évitent les dépassements.",
+  "Quel que soit ton secteur, les premiers repères sont les mêmes : écrire ce que tu fais, suivre tes chiffres, noter ce qui doit être fait et par qui."
+];
+var STRUCTURES_TXT = [
+  "En activité individuelle, tu es la seule garante de tout. Écrire tes habitudes est la première façon de pouvoir, un jour, déléguer.",
+  "Dans une TPE ou une PME, le plus grand gain vient de la clarté des rôles : qui décide, qui exécute, qui vérifie.",
+  "Pour une startup, ces repères servent surtout à poser tôt de bonnes habitudes : un tableau de bord simple et un rythme de revue régulier.",
+  "Dans une association ou une ONG, l'enjeu est de garder l'élan : rôles clairs, suivi des engagements, comptes rendus brefs."
+];
+var ECHELLE = ["Pas du tout","Un peu","En grande partie","Oui, complètement"];
+var PILIERS = [
+  {id:"structure", nom:"Structure"},
+  {id:"performance", nom:"Performance"},
+  {id:"rigueur", nom:"Rigueur"},
+  {id:"croissance", nom:"Croissance"},
+  {id:"amelioration", nom:"Amélioration continue"}
+];
+var ENONCES = [
+  {p:"structure", q:"Je peux dire en une phrase ce que je vends, à qui, et pour quel résultat."},
+  {p:"structure", q:"Mes tâches qui reviennent chaque semaine sont écrites (liste, check-list ou procédure)."},
+  {p:"structure", q:"Chaque personne qui travaille avec moi sait précisément ce qu'elle doit faire."},
+  {p:"performance", q:"Je connais les trois activités qui me rapportent le plus d'argent."},
+  {p:"performance", q:"Je sais combien j'ai gagné et dépensé le mois dernier, sans chercher longtemps."},
+  {p:"performance", q:"À la fin de ma semaine, j'ai avancé sur mes priorités, pas seulement sur les urgences."},
+  {p:"rigueur", q:"Mes commandes, devis et paiements sont suivis au même endroit."},
+  {p:"rigueur", q:"Mes documents importants (factures, contrats, échanges clients) se retrouvent en moins de deux minutes."},
+  {p:"rigueur", q:"Je relance mes clients et mes fournisseurs à date fixe, sans oublier."},
+  {p:"croissance", q:"Si je recevais deux fois plus de commandes demain, mon organisation tiendrait."},
+  {p:"croissance", q:"Je peux confier une tâche à quelqu'un sans passer une heure à l'expliquer."},
+  {p:"croissance", q:"Mon activité continuerait de fonctionner si je m'absentais une semaine."},
+  {p:"amelioration", q:"Je prends un moment chaque semaine pour regarder ce qui a marché ou non."},
+  {p:"amelioration", q:"Quand une erreur arrive, je change ma façon de faire pour qu'elle ne revienne pas."},
+  {p:"amelioration", q:"Je demande régulièrement l'avis de mes clients et je m'en sers."}
+];
+var NIVEAUX = [
+  {max:25, nom:"Au feeling", texte:"Ton activité fonctionne surtout grâce à toi. Bonne nouvelle : de petits repères écrits changent beaucoup de choses, très vite."},
+  {max:50, nom:"En construction", texte:"Tu as posé des bases, mais plusieurs parties reposent encore sur ta mémoire et ton énergie."},
+  {max:75, nom:"Structurée", texte:"Ton activité a de vrais repères. Il reste à les rendre systématiques pour qu'elle grandisse sans dépendre de toi."},
+  {max:100, nom:"Pilotée", texte:"Ton activité est organisée et suivie. Tu peux la faire grandir, ou t'en éloigner, plus sereinement."}
+];
+var CHANTIERS = {
+  structure:{titre:"Structure : mettre tes repères par écrit", diag:"Une grande partie de ton activité vit dans ta tête. C'est normal au départ, mais c'est ce qui te rend indispensable.", actions:["Écris en une phrase ce que tu vends, à qui, et pour quel résultat.","Pendant une semaine, note les tâches qui reviennent, puis écris les trois étapes de la plus fréquente."], geste:"écris les trois étapes de la tâche que tu répètes le plus souvent.", fort:"Tu as déjà des repères écrits : c'est ta base pour déléguer."},
+  performance:{titre:"Performance : voir ce qui rapporte et ce qui coûte", diag:"Tu travailles beaucoup, mais tu n'as pas encore une vue claire de ce qui te rapporte et de ce qui te coûte.", actions:["Note, pendant un mois, tes ventes et tes dépenses dans un seul tableau.","Repère tes trois activités les plus rentables et protège du temps pour elles."], geste:"ouvre un tableau avec trois colonnes (date, entrée, sortie) et note les chiffres d'aujourd'hui.", fort:"Tu sais ce qui te rapporte : tu peux décider avec des faits."},
+  rigueur:{titre:"Rigueur : ne plus rien perdre ni oublier", diag:"Les informations importantes sont dispersées, ce qui fait perdre du temps et expose aux oublis.", actions:["Crée un seul endroit (classeur ou dossier) pour commandes, devis et paiements.","Fixe un jour par semaine pour relancer clients et fournisseurs."], geste:"choisis le jour de ta relance hebdomadaire et mets un rappel dans ton téléphone.", fort:"Ton suivi est solide : c'est ce qui rassure tes clients."},
+  croissance:{titre:"Croissance : préparer ton activité à tenir sans toi", diag:"Ton organisation tiendrait difficilement si l'activité doublait ou si tu t'absentais.", actions:["Choisis une tâche à confier et écris la consigne en cinq lignes.","Écris ce qui doit absolument continuer pendant une absence d'une semaine, et qui s'en charge."], geste:"écris la consigne en cinq lignes d'une tâche que tu pourrais confier.", fort:"Ton activité sait absorber du changement : c'est ton atout pour grandir."},
+  amelioration:{titre:"Amélioration continue : apprendre de ce qui arrive", diag:"Tu avances, mais sans prendre le temps de tirer les leçons, les mêmes problèmes reviennent.", actions:["Réserve quinze minutes chaque vendredi pour noter ce qui a marché et ce qui a coincé.","Après chaque erreur, change une règle ou une étape pour qu'elle ne se reproduise pas."], geste:"bloque quinze minutes vendredi pour ton premier bilan de la semaine.", fort:"Tu apprends de ton activité : c'est ce qui la fait progresser."}
+};
+var CLE = "indice-structure-v1";
+
+/* ================== LOGIQUE ================== */
+var etat = {prenom:"", etape:-1, reponses:{}};
+var TOTAL = CONTEXTE.length + ENONCES.length;
+var $ = function(id){return document.getElementById(id)};
+
+function sauver(){ try{ localStorage.setItem(CLE, JSON.stringify(etat)); }catch(e){} }
+function charger(){ try{ var s = localStorage.getItem(CLE); if(s){ var o = JSON.parse(s); if(o && typeof o==="object") return o; } }catch(e){} return null; }
+function effacer(){ try{ localStorage.removeItem(CLE); }catch(e){} etat = {prenom:"", etape:-1, reponses:{}}; montrer("accueil"); $("prenom").value=""; }
+
+function montrer(nom){
+  $("ecran-accueil").classList.toggle("hidden", nom!=="accueil");
+  $("ecran-quiz").classList.toggle("hidden", nom!=="quiz");
+  $("ecran-resultat").classList.toggle("hidden", nom!=="resultat");
+  window.scrollTo(0,0);
+}
+
+function item(i){
+  if(i < CONTEXTE.length) return {type:"ctx", data:CONTEXTE[i], cle:CONTEXTE[i].id, cat:"Contexte"};
+  var e = ENONCES[i - CONTEXTE.length];
+  var nomP = PILIERS.filter(function(p){return p.id===e.p})[0].nom;
+  return {type:"mes", data:e, cle:"e"+(i - CONTEXTE.length), cat:nomP};
+}
+
+function afficherQuestion(){
+  var i = etat.etape, it = item(i);
+  $("compteur").textContent = "Question " + (i+1) + " sur " + TOTAL;
+  var pc = Math.round(i/TOTAL*100);
+  $("pct").textContent = pc + " %";
+  $("barre").style.width = pc + "%";
+  $("categorie").textContent = it.cat;
+  $("question").textContent = it.data.q;
+  var opts = it.type==="ctx" ? it.data.opts : ECHELLE;
+  var box = $("options"); box.innerHTML = "";
+  opts.forEach(function(txt, k){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "opt" + (etat.reponses[it.cle]===k ? " sel" : "");
+    b.textContent = txt;
+    b.addEventListener("click", function(){ repondre(it.cle, k); });
+    box.appendChild(b);
+  });
+  $("btn-prec").style.visibility = i===0 ? "hidden" : "visible";
+  $("aide").textContent = it.type==="mes" ? "Réponds selon ta situation actuelle." : "";
+}
+
+function repondre(cle, k){
+  etat.reponses[cle] = k;
+  if(etat.etape >= TOTAL-1){ etat.etape = TOTAL; sauver(); afficherResultat(); return; }
+  etat.etape += 1; sauver(); afficherQuestion();
+}
+
+function calculer(){
+  var parPilier = {}, total = 0;
+  PILIERS.forEach(function(p){ parPilier[p.id] = 0; });
+  ENONCES.forEach(function(e, n){ var v = etat.reponses["e"+n]; v = (typeof v==="number") ? v : 0; parPilier[e.p] += v; total += v; });
+  var score = Math.round(total/(ENONCES.length*3)*100);
+  var pct = {};
+  PILIERS.forEach(function(p){ pct[p.id] = Math.round(parPilier[p.id]/9*100); });
+  var ordre = PILIERS.slice().sort(function(a,b){ return pct[a.id]-pct[b.id]; });
+  var niveau = NIVEAUX.filter(function(n){ return score<=n.max; })[0];
+  return {score:score, pct:pct, priorites:[ordre[0].id, ordre[1].id], fort:ordre[ordre.length-1].id, niveau:niveau};
+}
+
+function afficherResultat(){
+  var r = calculer();
+  montrer("resultat");
+  $("res-bonjour").textContent = etat.prenom ? ("Merci " + etat.prenom + ", voici ton résultat") : "Voici ton résultat";
+  $("score-txt").textContent = r.score;
+  $("anneau").setAttribute("stroke-dashoffset", String(452.39 * (1 - r.score/100)));
+  $("niveau").textContent = r.niveau.nom;
+  $("niveau-texte").textContent = r.niveau.texte;
+  var pb = $("piliers"); pb.innerHTML = "";
+  PILIERS.forEach(function(p){
+    var d = document.createElement("div");
+    d.className = "bar" + (r.priorites.indexOf(p.id)>=0 ? " faible" : "");
+    d.innerHTML = '<div class="l"><span></span><span></span></div><div class="t"><i></i></div>';
+    d.querySelectorAll("span")[0].textContent = p.nom;
+    d.querySelectorAll("span")[1].textContent = r.pct[p.id] + " %";
+    d.querySelector("i").style.width = r.pct[p.id] + "%";
+    pb.appendChild(d);
+  });
+  var ch = $("chantiers"); ch.innerHTML = "";
+  r.priorites.forEach(function(id){
+    var c = CHANTIERS[id], d = document.createElement("div"); d.className = "chantier";
+    var h = document.createElement("h3"); h.textContent = c.titre; d.appendChild(h);
+    var p = document.createElement("div"); p.textContent = c.diag; d.appendChild(p);
+    var ul = document.createElement("ul");
+    c.actions.forEach(function(a){ var li = document.createElement("li"); li.textContent = a; ul.appendChild(li); });
+    d.appendChild(ul); ch.appendChild(d);
+  });
+  $("geste").textContent = CHANTIERS[r.priorites[0]].geste;
+  var sx = etat.reponses.secteur, st = etat.reponses.structure;
+  $("txt-secteur").textContent = SECTEURS_TXT[typeof sx==="number" ? sx : SECTEURS_TXT.length-1];
+  $("txt-structure").textContent = STRUCTURES_TXT[typeof st==="number" ? st : 1];
+  var ab = $("absence");
+  if(etat.reponses.absence === 0 || etat.reponses.absence === 1){
+    ab.classList.remove("hidden");
+    ab.textContent = "Tu prévois de t'absenter : les piliers Croissance et Rigueur comptent le plus. Prépare une page de passation d'une feuille : qui fait quoi, où sont les documents, quoi répondre aux clients.";
+  } else { ab.classList.add("hidden"); }
+  construireCTA(r);
+}
+
+function parametres(r){
+  var q = new URLSearchParams();
+  q.set("score", r.score); q.set("niveau", r.niveau.nom);
+  q.set("priorite1", r.priorites[0]); q.set("priorite2", r.priorites[1]);
+  if(etat.prenom) q.set("prenom", etat.prenom);
+  var src = new URLSearchParams(location.search).get("source"); if(src) q.set("source", src);
+  var ab = CONTEXTE[3].opts[etat.reponses.absence]; if(ab) q.set("absence", ab);
+  var sct = CONTEXTE[0].opts[etat.reponses.secteur]; if(sct) q.set("secteur", sct);
+  var str = CONTEXTE[1].opts[etat.reponses.structure]; if(str) q.set("structure", str);
+  return q.toString();
+}
+
+function construireCTA(r){
+  var z = $("ctas"); z.innerHTML = ""; var n = 0;
+  function lien(txt, href, cls){ var a = document.createElement("a"); a.className = "btn " + cls; a.textContent = txt; a.href = href; a.target = "_blank"; a.rel = "noopener"; z.appendChild(a); n++; }
+  if(CONFIG.calendlyUrl) lien("Réserver un échange de 15 minutes", CONFIG.calendlyUrl, "");
+  if(CONFIG.tallyUrl) lien("Recevoir mon rapport et être recontactée", CONFIG.tallyUrl + (CONFIG.tallyUrl.indexOf("?")>=0 ? "&" : "?") + parametres(r), "or");
+  if(CONFIG.whatsapp){
+    var msg = CONFIG.message_whatsapp + " Mon score : " + r.score + "/100 (" + r.niveau.nom + ").";
+    lien("M'écrire sur WhatsApp", "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg), "vide");
+  }
+  if(!n){ var p = document.createElement("p"); p.className = "petit"; p.textContent = "Écris-moi en message privé avec ton score pour que nous regardions ensemble tes deux chantiers."; z.appendChild(p); }
+}
+
+function texteResultat(){
+  var r = calculer();
+  var t = "Mon Indice de Structure : " + r.score + "/100 (" + r.niveau.nom + ")\n";
+  PILIERS.forEach(function(p){ t += "- " + p.nom + " : " + r.pct[p.id] + " %\n"; });
+  t += "Mes deux chantiers : " + CHANTIERS[r.priorites[0]].titre + " ; " + CHANTIERS[r.priorites[1]].titre + "\n";
+  t += "Mon premier geste : " + CHANTIERS[r.priorites[0]].geste;
+  return t;
+}
+function copier(){
+  var t = texteResultat(), info = $("copie-info");
+  function ok(){ info.textContent = "Résultat copié. Tu peux le coller dans un message."; }
+  function ko(){ info.textContent = "Copie impossible sur cet appareil. Utilise plutôt l'enregistrement en PDF."; }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(ok, function(){ essaiSecours(t, ok, ko); }); }
+  else essaiSecours(t, ok, ko);
+}
+function essaiSecours(t, ok, ko){
+  try{ var a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select(); var s = document.execCommand("copy"); document.body.removeChild(a); s ? ok() : ko(); }catch(e){ ko(); }
+}
+
+function demarrer(){
+  etat.prenom = ($("prenom").value || "").trim().slice(0,40);
+  etat.etape = 0; etat.reponses = {}; sauver(); montrer("quiz"); afficherQuestion();
+}
+
+/* ================== DÉMARRAGE ================== */
+document.addEventListener("DOMContentLoaded", function(){
+  $("nom").textContent = CONFIG.nom; $("titre").textContent = CONFIG.titre; $("qui").textContent = CONFIG.qui;
+  $("btn-start").addEventListener("click", demarrer);
+  if(CONFIG.whatsapp){ var wa = document.createElement("a"); wa.className = "btn vide"; wa.target = "_blank"; wa.rel = "noopener"; wa.textContent = "Je préfère en parler d'abord sur WhatsApp"; wa.href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent("Bonjour Audrey, je voudrais en savoir plus sur le diagnostic."); $("accueil-wa").appendChild(wa); }
+  $("btn-prec").addEventListener("click", function(){ if(etat.etape>0){ etat.etape -= 1; sauver(); afficherQuestion(); } });
+  $("btn-copier").addEventListener("click", copier);
+  $("btn-print").addEventListener("click", function(){ window.print(); });
+  $("btn-refaire").addEventListener("click", function(){ etat.etape = -1; etat.reponses = {}; sauver(); montrer("accueil"); });
+  $("btn-effacer").addEventListener("click", effacer);
+  var s = charger();
+  if(s){
+    etat = s; if(etat.prenom) $("prenom").value = etat.prenom;
+    if(etat.etape >= TOTAL) afficherResultat();
+    else if(etat.etape >= 0){ montrer("quiz"); afficherQuestion(); }
+  }
+});
+</script>
+</body>
+</html>
